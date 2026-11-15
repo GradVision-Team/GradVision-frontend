@@ -12,6 +12,11 @@ export type SessionUser = {
   first_name: string;
   last_name: string;
   email: string;
+  past_education?: unknown;
+  research_interests?: unknown;
+  program_interests?: unknown;
+  career_goals?: unknown;
+  personal_statement?: string | null;
 };
 
 export type ValidatedSession =

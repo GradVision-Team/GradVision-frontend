@@ -133,8 +133,8 @@ export function validateOnboardingStep(
   if (draft.careerGoals.length === 0) {
     return "Select at least one thing that matters to you.";
   }
-  if (draft.personalStatement.trim().length < 10) {
-    return "Describe your academic or career goals (at least 10 characters).";
+  if (!draft.personalStatement.trim()) {
+    return "Describe your academic or career goals.";
   }
   return null;
 }
@@ -176,6 +176,32 @@ export function asStringArray(value: unknown): string[] {
   return Array.isArray(value)
     ? value.filter((item): item is string => typeof item === "string")
     : [];
+}
+
+/** Profile fields used to decide whether onboarding already finished (MVP heuristic). */
+export type OnboardingCompletionProfile = {
+  past_education?: unknown;
+  research_interests?: unknown;
+  program_interests?: unknown;
+  career_goals?: unknown;
+  personal_statement?: string | null;
+};
+
+/**
+ * MVP completion check until the backend adds `onboarding_complete`.
+ * Normalizes missing/null arrays safely.
+ */
+export function isOnboardingComplete(
+  user: OnboardingCompletionProfile,
+): boolean {
+  return (
+    Array.isArray(user.past_education) &&
+    user.past_education.length > 0 &&
+    asStringArray(user.research_interests).length > 0 &&
+    asStringArray(user.program_interests).length > 0 &&
+    asStringArray(user.career_goals).length > 0 &&
+    Boolean(user.personal_statement?.trim())
+  );
 }
 
 export function isOnboardingStep(value: unknown): value is OnboardingStep {

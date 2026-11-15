@@ -48,7 +48,6 @@ export function StepGoals({
           name="personalStatement"
           rows={5}
           required
-          minLength={10}
           placeholder="I want to pursue graduate study so that…"
           value={draft.personalStatement}
           onChange={(event) =>

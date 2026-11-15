@@ -6,6 +6,7 @@ import { AuthPageShell } from "@/components/auth/auth-page-shell";
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { RestoringSession } from "@/components/restoring-session";
 import { getValidatedSession } from "@/lib/auth/session";
+import { isOnboardingComplete } from "@/lib/onboarding";
 
 export const metadata: Metadata = {
   title: "Onboarding",
@@ -41,6 +42,10 @@ export default async function OnboardingPage() {
 
   if (!session.ok) {
     redirect("/login");
+  }
+
+  if (isOnboardingComplete(session.user)) {
+    redirect("/dashboard");
   }
 
   return (
