@@ -1,3 +1,5 @@
+import type { OnboardingUserUpdatePayload } from "@/lib/onboarding";
+
 export type RegisterUserPayload = {
   first_name: string;
   last_name: string;
@@ -11,9 +13,12 @@ export type ApiErrorBody = {
 };
 
 export class ApiRequestError extends Error {
-  constructor(message: string) {
+  status?: number;
+
+  constructor(message: string, status?: number) {
     super(message);
     this.name = "ApiRequestError";
+    this.status = status;
   }
 }
 
@@ -173,5 +178,57 @@ export async function registerUser(payload: RegisterUserPayload): Promise<void> 
     // Non-JSON or empty body — keep generic message.
   }
 
-  throw new ApiRequestError(message);
+  throw new ApiRequestError(message, response.status);
+}
+
+/**
+ * Updates the authenticated user's profile via the Next.js BFF.
+ * Backend: PATCH /api/users/{id} (Bearer access token from httpOnly cookie).
+ */
+export async function updateCurrentUserProfile(
+  payload: OnboardingUserUpdatePayload,
+): Promise<void> {
+  let response: Response;
+
+  try {
+    response = await fetch("/api/users/me", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch {
+    throw new ApiRequestError(
+      "Unable to reach the server. Check your connection and try again.",
+    );
+  }
+
+  let data: unknown;
+
+  try {
+    data = await response.json();
+  } catch {
+    if (response.ok) {
+      return;
+    }
+
+    throw new ApiRequestError(
+      "Something went wrong. Please try again.",
+      response.status,
+    );
+  }
+
+  if (
+    response.ok &&
+    typeof data === "object" &&
+    data !== null &&
+    "success" in data &&
+    data.success === true
+  ) {
+    return;
+  }
+
+  throw new ApiRequestError(getApiErrorMessage(data), response.status);
 }
