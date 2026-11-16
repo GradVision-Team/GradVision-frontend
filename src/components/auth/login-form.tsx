@@ -43,7 +43,7 @@ export function LoginForm({ showRegisteredMessage = false }: LoginFormProps) {
 
     try {
       await loginUser({ email, password });
-      router.replace("/dashboard");
+      router.replace("/onboarding");
       router.refresh();
     } catch (error) {
       const message =
