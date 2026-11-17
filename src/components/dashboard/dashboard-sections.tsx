@@ -4,7 +4,6 @@ import { BookOpen, FileText, Landmark, UserRound } from "lucide-react";
 import {
   CardHeading,
   DashboardCard,
-  EmptyNote,
   muted,
   ProgressBar,
 } from "@/components/dashboard/dashboard-ui";
@@ -15,6 +14,7 @@ import {
   upcomingEvents,
   type DashboardData,
 } from "@/lib/dashboard";
+import { EmptyState } from "@/components/states/empty-state";
 import { cn } from "@/lib/utils";
 
 export function WelcomeHeader({ firstName }: { firstName: string }) {
@@ -39,7 +39,11 @@ export function ApplicationProgress({ data }: { data: DashboardData }) {
         subtitle="Across your active school list"
       />
       {data.applications.length === 0 ? (
-        <EmptyNote>No applications yet. Add one to start tracking progress.</EmptyNote>
+        <EmptyState
+          text="No applications yet. Start one to track your progress."
+          href="/explore"
+          linkLabel="Find programs"
+        />
       ) : (
         <ul className="flex flex-col gap-3.5">
           {data.applications.map((app) => {
@@ -71,7 +75,7 @@ export function UpcomingDeadlines({ data }: { data: DashboardData }) {
     <DashboardCard aria-labelledby="deadlines-title">
       <CardHeading id="deadlines-title" title="Upcoming deadlines" />
       {events.length === 0 ? (
-        <EmptyNote>No upcoming deadlines for your saved programs.</EmptyNote>
+        <EmptyState text="No upcoming deadlines. Save a program to see its dates here." />
       ) : (
         <ul className="flex flex-col gap-2.5">
           {events.map((event) => (

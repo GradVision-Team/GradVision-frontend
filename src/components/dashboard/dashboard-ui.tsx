@@ -99,7 +99,3 @@ export function StatusBadge({ label, tone }: { label: string; tone: Tone }) {
 
 export const primaryButton =
   "inline-flex items-center justify-center rounded-md bg-[var(--blue)] px-3 py-1.5 text-[11px] font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)] disabled:opacity-50";
-
-export function EmptyNote({ children }: { children: ReactNode }) {
-  return <p className={cn("py-6 text-center text-sm", muted)}>{children}</p>;
-}
