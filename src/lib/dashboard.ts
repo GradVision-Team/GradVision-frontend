@@ -22,6 +22,7 @@ export type Application = {
   notes: string | null;
   created_at: string;
   updated_at: string;
+  statement_url?: string | null;
 };
 
 export type Task = {
@@ -165,6 +166,7 @@ export const SAMPLE_DASHBOARD_DATA: DashboardData = {
       statement_done: true,
       test_scores_done: false,
       notes: null,
+      statement_url: "https://docs.google.com/document/d/sample-uchicago/edit",
       created_at: "2026-09-01T00:00:00",
       updated_at: "2026-11-01T00:00:00",
     },
@@ -180,6 +182,7 @@ export const SAMPLE_DASHBOARD_DATA: DashboardData = {
       statement_done: false,
       test_scores_done: false,
       notes: null,
+      statement_url: "https://docs.google.com/document/d/sample-ucsd/edit",
       created_at: "2026-09-10T00:00:00",
       updated_at: "2026-11-05T00:00:00",
     },
@@ -195,6 +198,7 @@ export const SAMPLE_DASHBOARD_DATA: DashboardData = {
       statement_done: false,
       test_scores_done: false,
       notes: null,
+      statement_url: null,
       created_at: "2026-10-01T00:00:00",
       updated_at: "2026-10-20T00:00:00",
     },

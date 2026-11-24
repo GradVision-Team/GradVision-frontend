@@ -14,7 +14,7 @@ export class DashboardLoadError extends Error {
   }
 }
 
-async function getList<T>(auth: BackendAuth, path: string): Promise<T[]> {
+export async function getList<T>(auth: BackendAuth, path: string): Promise<T[]> {
   let response: Response;
   try {
     response = await backendFetch(auth, path);
