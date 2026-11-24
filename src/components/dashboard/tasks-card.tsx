@@ -5,9 +5,10 @@ import { useId, useState } from "react";
 import {
   CardHeading,
   DashboardCard,
-  EmptyNote,
   primaryButton,
 } from "@/components/dashboard/dashboard-ui";
+import { EmptyState } from "@/components/states/empty-state";
+import { Spinner } from "@/components/states/loading-state";
 import { formatShortDate, parseDate, type Task } from "@/lib/dashboard";
 import { cn } from "@/lib/utils";
 
@@ -145,7 +146,7 @@ export function TasksCard({
             className="rounded-md border border-[#a9bac3] bg-white px-2 py-1.5 text-xs"
           />
           <button type="submit" disabled={saving} className={primaryButton}>
-            {saving ? "Saving…" : "Save"}
+            {saving ? <Spinner label="Saving…" /> : "Save"}
           </button>
         </form>
       )}
@@ -157,7 +158,7 @@ export function TasksCard({
       )}
 
       {shown.length === 0 ? (
-        <EmptyNote>No tasks yet. Add your first one.</EmptyNote>
+        <EmptyState text="No tasks yet. Add your first one." />
       ) : (
         <ul className="flex flex-col gap-2.5">
           {shown.map((task) => (

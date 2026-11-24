@@ -6,7 +6,6 @@ import { CircleArrowRight, Check, Circle } from "lucide-react";
 
 import {
   DashboardCard,
-  EmptyNote,
   muted,
   primaryButton,
   ProgressBar,
@@ -23,6 +22,7 @@ import {
   type Application,
   type CalendarEvent,
 } from "@/lib/dashboard";
+import { EmptyState } from "@/components/states/empty-state";
 import { cn } from "@/lib/utils";
 
 function ApplicationCard({
@@ -140,9 +140,11 @@ export function MyApplications({
       </div>
 
       {applications.length === 0 ? (
-        <EmptyNote>
-          You haven&rsquo;t started any applications yet. Find a program in Explore to begin.
-        </EmptyNote>
+        <EmptyState
+          text="You haven't started any applications yet."
+          href="/explore"
+          linkLabel="Find a program in Explore"
+        />
       ) : (
         <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {applications.map((app) => (
