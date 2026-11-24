@@ -1,4 +1,4 @@
-import type { OnboardingUserUpdatePayload } from "@/lib/onboarding";
+import type { ProfileUpdatePayload } from "@/lib/profile";
 
 export type RegisterUserPayload = {
   first_name: string;
@@ -184,14 +184,30 @@ export async function registerUser(payload: RegisterUserPayload): Promise<void> 
 /**
  * Updates the authenticated user's profile via the Next.js BFF.
  * Backend: PATCH /api/users/{id} (Bearer access token from httpOnly cookie).
+ * The backend applies partial updates, so only the fields you send change.
  */
-export async function updateCurrentUserProfile(
-  payload: OnboardingUserUpdatePayload,
+export function updateCurrentUserProfile(payload: ProfileUpdatePayload): Promise<void> {
+  return sendJsonPatch("/api/users/me", payload);
+}
+
+/**
+ * Sets (or clears, with null) the statement link on one application via the BFF.
+ * Backend: PATCH /api/applications/{id}.
+ */
+export function updateApplicationStatementUrl(
+  applicationId: number,
+  statementUrl: string | null,
 ): Promise<void> {
+  return sendJsonPatch(`/api/applications/${applicationId}`, {
+    statement_url: statementUrl,
+  });
+}
+
+async function sendJsonPatch(url: string, payload: unknown): Promise<void> {
   let response: Response;
 
   try {
-    response = await fetch("/api/users/me", {
+    response = await fetch(url, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

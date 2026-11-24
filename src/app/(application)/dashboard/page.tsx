@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter, Lora } from "next/font/google";
 import { redirect } from "next/navigation";
 
 import { ApplicationServiceError } from "@/components/application-service-error";
@@ -15,11 +14,8 @@ import { getBackendAuth } from "@/lib/auth/backend-request";
 import { renderProtectedApplicationPage } from "@/lib/auth/protected-page";
 import { SAMPLE_DASHBOARD_DATA, type DashboardData } from "@/lib/dashboard";
 import { DashboardLoadError, fetchDashboardData } from "@/lib/dashboard-server";
+import { inter, lora } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-
-// Fonts used by the Figma dashboard design.
-const lora = Lora({ subsets: ["latin"], variable: "--font-lora" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
   title: "Dashboard",
