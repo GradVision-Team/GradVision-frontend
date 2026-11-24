@@ -9,10 +9,10 @@ import {
   primaryButton,
 } from "@/components/dashboard/dashboard-ui";
 export const secondaryButton =
-  "inline-flex items-center justify-center rounded-md border border-[#a9bac3] bg-white px-3 py-1.5 text-[11px] font-bold text-[var(--blue)] transition-colors hover:bg-[#f8f3e5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)] disabled:opacity-50";
+  "inline-flex items-center justify-center rounded-md border border-(--blue) bg-white px-3 py-1.5 text-[11px] font-bold text-[var(--blue)] transition-colors hover:bg-[var(--cream)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)] disabled:opacity-50";
 
 export const fieldClassName =
-  "w-full rounded-md border border-[#a9bac3] bg-white px-3 py-2 text-sm text-[var(--blue)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--blue)]";
+  "w-full rounded-md border border-(--blue) bg-white px-3 py-2 text-sm text-[var(--blue)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--blue)]";
 
 export const fieldLabelClassName = "mb-1 block text-xs font-semibold";
 

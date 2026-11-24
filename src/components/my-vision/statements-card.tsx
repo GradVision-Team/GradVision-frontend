@@ -1,12 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useId, useState, type FormEvent } from "react";
 
 import {
   CardHeading,
   DashboardCard,
-  EmptyNote,
   muted,
   primaryButton,
 } from "@/components/dashboard/dashboard-ui";
@@ -17,6 +15,7 @@ import {
   secondaryButton,
 } from "@/components/my-vision/editable-card";
 import { useSaveAction } from "@/components/my-vision/use-save-action";
+import { EmptyState } from "@/components/states/empty-state";
 import { updateApplicationStatementUrl } from "@/lib/api";
 import type { Application } from "@/lib/dashboard";
 import {
@@ -87,7 +86,7 @@ function StatementRow({ application, url, isSample, onSaved }: StatementRowProps
   }
 
   return (
-    <li className="rounded-[10px] bg-[#f8f3e5] px-4 py-3">
+    <li className="rounded-[10px] bg-[var(--cream)] px-4 py-3">
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
         <div className="min-w-0">
           <p className="text-sm font-semibold">{title}</p>
@@ -180,13 +179,11 @@ export function StatementsCard({
       />
 
       {applications.length === 0 ? (
-        <EmptyNote>
-          No applications yet.{" "}
-          <Link href="/explore" className="font-medium underline underline-offset-2">
-            Find a program in Explore
-          </Link>{" "}
-          to start one and link your statement here.
-        </EmptyNote>
+        <EmptyState
+          text="No applications yet. Start one to link your statement here."
+          href="/explore"
+          linkLabel="Find a program in Explore"
+        />
       ) : (
         <ul className="flex flex-col gap-2.5">
           {applications.map((application) => (

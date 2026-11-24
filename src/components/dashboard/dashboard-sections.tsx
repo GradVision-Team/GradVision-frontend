@@ -17,19 +17,6 @@ import {
 import { EmptyState } from "@/components/states/empty-state";
 import { cn } from "@/lib/utils";
 
-export function WelcomeHeader({ firstName }: { firstName: string }) {
-  return (
-    <header className="border-b border-[#a9bac3] bg-[#fffcf4] px-4 py-8 md:px-8">
-      <h1 className="text-[31px] leading-tight font-normal">
-        Welcome back{firstName ? `, ${firstName}` : ""}
-      </h1>
-      <p className={cn("mt-2 text-sm", muted)}>
-        Here&rsquo;s what&rsquo;s coming up in your application journey.
-      </p>
-    </header>
-  );
-}
-
 export function ApplicationProgress({ data }: { data: DashboardData }) {
   return (
     <DashboardCard aria-labelledby="progress-title">
@@ -126,7 +113,7 @@ export function SavedResearch({ data }: { data: DashboardData }) {
         {categories.map(({ label, count, icon: Icon }) => (
           <li
             key={label}
-            className="flex min-h-[130px] flex-col rounded-[10px] border border-[#a9bac3] bg-[#f8f3e5] p-3.5"
+            className="flex min-h-[130px] flex-col rounded-[10px] border border-(--blue) bg-[var(--cream)] p-3.5"
           >
             <Icon className="size-[18px]" aria-hidden />
             <span className="mt-2 font-[family-name:var(--font-lora)] text-[26px]">{count}</span>

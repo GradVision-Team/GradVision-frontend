@@ -18,7 +18,7 @@ export function ErrorState({
     <div
       role="alert"
       className={cn(
-        "flex flex-col items-start gap-3 rounded-[14px] border border-[var(--burgundy)]/40 bg-[#fffcf4] p-5 text-[var(--blue)]",
+        "flex flex-col items-start gap-3 rounded-[14px] border border-[var(--burgundy)]/40 bg-[var(--white)] p-5 text-[var(--blue)]",
         className,
       )}
     >

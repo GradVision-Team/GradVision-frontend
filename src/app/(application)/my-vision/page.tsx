@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
+import { ApplicationPageHeader } from "@/components/application-page-header";
 import { ApplicationServiceError } from "@/components/application-service-error";
-import { muted } from "@/components/dashboard/dashboard-ui";
 
 // components for the page
 import { GoalsCard } from "@/components/my-vision/goals-card";
@@ -14,7 +14,6 @@ import { getBackendAuth } from "@/lib/auth/backend-request";
 // authentication and data structs
 import { renderProtectedApplicationPage } from "@/lib/auth/protected-page";
 import { SAMPLE_DASHBOARD_DATA, type Application } from "@/lib/dashboard";
-import { inter, lora } from "@/lib/fonts";
 import { DEGREE_PATH_OPTIONS, RESEARCH_INTEREST_OPTIONS } from "@/lib/onboarding";
 
 // profile helpers
@@ -25,7 +24,6 @@ import {
 } from "@/lib/profile";
 // fetch applications from backend for statement urls
 import { ProfileLoadError, fetchApplications } from "@/lib/profile-server";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "My Vision",
@@ -47,17 +45,11 @@ function MyVisionView({
   isSample: boolean;
 }) {
   return (
-    <main
-      className={cn(
-        lora.variable,
-        inter.variable,
-        "flex-1 font-[family-name:var(--font-inter)] text-[var(--blue)]",
-      )}
-    >
-      <header className="border-b border-[#a9bac3] bg-[#fffcf4] px-4 py-8 md:px-8">
-        <h1 className="text-[31px] leading-tight font-normal">My Vision</h1>
-        <p className={cn("mt-2 text-sm", muted)}>Your academic direction.</p>
-      </header>
+    <main className="flex-1">
+      <ApplicationPageHeader
+        title="My Vision"
+        description="Your academic direction."
+      />
 
       <div className="flex flex-col gap-4 px-4 py-6 md:px-8">
         {isSample && (

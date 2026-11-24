@@ -96,7 +96,7 @@ export function TagListCard({
                     "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--blue)]",
                     selected
                       ? "border-[var(--blue)] bg-[var(--blue)] text-white"
-                      : "border-[#a9bac3] bg-white text-[var(--blue)] hover:bg-[#f8f3e5]",
+                      : "border-(--blue) bg-white text-[var(--blue)] hover:bg-[var(--cream)]",
                   )}
                 >
                   {option}

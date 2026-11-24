@@ -21,7 +21,7 @@ export function DashboardCard({
   return (
     <section
       className={cn(
-        "rounded-[14px] border border-[#a9bac3] bg-[#fffcf4] p-5",
+        "rounded-[14px] border border-(--blue) bg-[var(--white)] p-5",
         className,
       )}
       {...props}

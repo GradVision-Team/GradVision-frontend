@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { ApplicationServiceError } from "@/components/application-service-error";
+import { ApplicationPageHeader } from "@/components/application-page-header";
 import {
   ApplicationProgress,
   SavedResearch,
   UpcomingDeadlines,
-  WelcomeHeader,
 } from "@/components/dashboard/dashboard-sections";
 import { MyApplications } from "@/components/dashboard/my-applications";
 import { TasksCard } from "@/components/dashboard/tasks-card";
@@ -14,8 +14,6 @@ import { getBackendAuth } from "@/lib/auth/backend-request";
 import { renderProtectedApplicationPage } from "@/lib/auth/protected-page";
 import { SAMPLE_DASHBOARD_DATA, type DashboardData } from "@/lib/dashboard";
 import { DashboardLoadError, fetchDashboardData } from "@/lib/dashboard-server";
-import { inter, lora } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -37,14 +35,11 @@ function DashboardView({
   isSample: boolean;
 }) {
   return (
-    <main
-      className={cn(
-        lora.variable,
-        inter.variable,
-        "flex-1 font-[family-name:var(--font-inter)] text-[var(--blue)]",
-      )}
-    >
-      <WelcomeHeader firstName={firstName} />
+    <main className="flex-1">
+      <ApplicationPageHeader
+        title={firstName ? `Welcome back, ${firstName}` : "Welcome back"}
+        description="Here's what's coming up in your application journey."
+      />
 
       <div className="flex flex-col gap-6 px-4 py-6 md:px-8">
         {isSample && (

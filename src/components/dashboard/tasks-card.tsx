@@ -133,7 +133,7 @@ export function TasksCard({
             placeholder="What do you need to do?"
             required
             autoFocus
-            className="min-w-0 flex-1 rounded-md border border-[#a9bac3] bg-white px-2 py-1.5 text-xs"
+            className="min-w-0 flex-1 rounded-md border border-(--blue) bg-white px-2 py-1.5 text-xs"
           />
           <label className="sr-only" htmlFor={`${formId}-date`}>
             Due date
@@ -143,7 +143,7 @@ export function TasksCard({
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            className="rounded-md border border-[#a9bac3] bg-white px-2 py-1.5 text-xs"
+            className="rounded-md border border-(--blue) bg-white px-2 py-1.5 text-xs"
           />
           <button type="submit" disabled={saving} className={primaryButton}>
             {saving ? <Spinner label="Saving…" /> : "Save"}

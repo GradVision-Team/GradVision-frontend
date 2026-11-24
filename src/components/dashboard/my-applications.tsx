@@ -39,7 +39,7 @@ function ApplicationCard({
   const checklistId = `checklist-${app.application_id}`;
 
   return (
-    <li className="flex flex-col rounded-[14px] border border-[#a9bac3] bg-[#fffcf4] p-[18px]">
+    <li className="flex flex-col rounded-[14px] border border-(--blue) bg-[var(--white)] p-[18px]">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="font-[family-name:var(--font-lora)] text-[19px] leading-tight">
@@ -77,7 +77,7 @@ function ApplicationCard({
                 {done ? (
                   <Check className="size-3.5 text-[#4e755f]" aria-hidden />
                 ) : (
-                  <Circle className="size-3.5 text-[#a9bac3]" aria-hidden />
+                  <Circle className="size-3.5 text-[var(--blue)]" aria-hidden />
                 )}
                 <span className={cn(done && "text-[#667985] line-through")}>
                   {step.label}

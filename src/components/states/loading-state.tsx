@@ -38,7 +38,7 @@ export function ListSkeleton({ rows = 3 }: { rows?: number }) {
 export function PageSkeleton() {
   return (
     <div role="status" aria-label="Loading page">
-      <div className="flex flex-col gap-3 border-b border-[#a9bac3] px-4 py-8 md:px-8">
+      <div className="flex flex-col gap-3 border-b border-(--blue) px-8 pt-8 pb-6">
         <Skeleton className="h-9 w-64 max-w-full" />
         <Skeleton className="h-4 w-80 max-w-full" />
       </div>

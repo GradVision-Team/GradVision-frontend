@@ -2,11 +2,11 @@ import { Skeleton } from "@/components/states/loading-state";
 
 // Shown while the dashboard data loads. Same layout as the real dashboard.
 export default function DashboardLoading() {
-  const card = "rounded-[14px] border border-[#a9bac3] bg-[#fffcf4] p-5";
+  const card = "rounded-[14px] border border-(--blue) bg-[var(--white)] p-5";
 
   return (
     <main className="flex-1" role="status" aria-label="Loading dashboard">
-      <div className="flex flex-col gap-3 border-b border-[#a9bac3] bg-[#fffcf4] px-4 py-8 md:px-8">
+      <div className="flex flex-col gap-3 border-b border-(--blue) px-8 pt-8 pb-6">
         <Skeleton className="h-9 w-72 max-w-full" />
         <Skeleton className="h-4 w-96 max-w-full" />
       </div>
