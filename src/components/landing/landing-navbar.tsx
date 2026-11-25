@@ -20,6 +20,7 @@ export function LandingNavbar() {
             className="h-9 w-auto shrink-0"
             aria-hidden
           />
+          {/* keeping the serif format for the gradvision header */}
           <span className="font-serif text-4xl leading-none font-bold text-[var(--blue)]">
             GradVision
           </span>
