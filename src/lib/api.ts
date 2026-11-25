@@ -146,12 +146,10 @@ export async function logoutUser(): Promise<void> {
 }
 
 export async function registerUser(payload: RegisterUserPayload): Promise<void> {
-  const url = `${getApiBaseUrl()}/users`;
-
   let response: Response;
 
   try {
-    response = await fetch(url, {
+    response = await fetch("/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
