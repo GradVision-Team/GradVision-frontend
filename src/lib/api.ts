@@ -22,16 +22,38 @@ export class ApiRequestError extends Error {
   }
 }
 
-export function getApiBaseUrl(): string {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+/** Local FastAPI default (used when NEXT_PUBLIC_API_URL is unset in development). */
+const DEFAULT_DEV_API_URL = "http://localhost:8000/api";
 
-  if (!baseUrl?.trim()) {
-    throw new ApiRequestError(
-      "API URL is not configured. Set NEXT_PUBLIC_API_URL in .env.local.",
-    );
+/** Production FastAPI default (used when NEXT_PUBLIC_API_URL is unset in production). */
+const DEFAULT_PROD_API_URL = "https://gradvision-backend.onrender.com/api";
+
+/**
+ * Server-side FastAPI base URL (must end with `/api`).
+ *
+ * Browser calls stay same-origin (`/api/...` BFF routes) so httpOnly cookies work.
+ * Those BFF handlers call this URL to reach the real backend.
+ */
+export function getApiBaseUrl(): string {
+  const configured = process.env.NEXT_PUBLIC_API_URL?.trim();
+  const fallback =
+    process.env.NODE_ENV === "production"
+      ? DEFAULT_PROD_API_URL
+      : DEFAULT_DEV_API_URL;
+  const baseUrl = configured || fallback;
+
+  return normalizeApiBaseUrl(baseUrl);
+}
+
+/** Strip trailing slashes and ensure the `/api` mount segment is present once. */
+function normalizeApiBaseUrl(url: string): string {
+  const normalized = url.replace(/\/+$/, "");
+
+  if (normalized.endsWith("/api")) {
+    return normalized;
   }
 
-  return baseUrl.replace(/\/$/, "");
+  return `${normalized}/api`;
 }
 
 export function isApiErrorBody(value: unknown): value is ApiErrorBody {
