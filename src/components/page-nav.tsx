@@ -7,6 +7,8 @@ const publicRoutes = [
   { href: "/", label: "Home" },
   { href: "/signup", label: "Sign Up" },
   { href: "/login", label: "Login" },
+  { href: "/onboarding", label: "Onboarding" },
+  { href: "/search", label: "Explore" },
 ] as const;
 
 type PageNavProps = {

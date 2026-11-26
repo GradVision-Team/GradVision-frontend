@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 const mainNavItems = [
   { href: "/my-vision", label: "My Vision", icon: GraduationCap },
   { href: "/dashboard", label: "Dashboard", icon: NotebookText },
-  { href: "/explore", label: "Explore", icon: Search },
+  { href: "/search", label: "Explore", icon: Search },
 ] as const;
 
 function SidebarNavLink({

@@ -268,3 +268,239 @@ async function sendJsonPatch(url: string, payload: unknown): Promise<void> {
 
   throw new ApiRequestError(getApiErrorMessage(data), response.status);
 }
+
+export type UniversitySummary = {
+  university_id: number;
+  university_name: string;
+  location: string | null;
+  program_count: number;
+  professor_count: number;
+};
+
+export type Professor = {
+  professor_id: number;
+  name: string;
+  department: string | null;
+  university_id: number;
+  research_interests: string[];
+};
+
+export type Paper = {
+  paper_id: number;
+  title: string;
+  authors: string[];
+  professor_ids: number[];
+  topics: string[];
+  abstract: string | null;
+  publication_date: string | null;
+  external_id_openalex: string | null;
+  link: string | null;
+};
+
+export async function searchUniversities(filters: {
+  search?: string;
+  location?: string;
+  programFields?: string[];
+}): Promise<UniversitySummary[]> {
+  const params = new URLSearchParams();
+
+  if (filters.search) {
+    params.set("search", filters.search);
+  }
+
+  if (filters.location) {
+    params.set("location", filters.location);
+  }
+
+  for (const field of filters.programFields ?? []) {
+    params.append("program_fields", field);
+  }
+
+  params.set("limit", "50");
+  params.set("offset", "0");
+
+  const response = await fetch(
+    `${getApiBaseUrl()}/search/universities?${params.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+      cache: "no-store",
+    },
+  );
+
+  if (!response.ok) {
+    throw new ApiRequestError("Unable to search universities.");
+  }
+
+  return response.json();
+}
+
+export async function getProfessors(
+  universityId: number,
+): Promise<Professor[]> {
+  const response = await fetch(
+    `${getApiBaseUrl()}/search/professors?university_id=${universityId}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+      cache: "no-store",
+    },
+  );
+
+  if (!response.ok) {
+    throw new ApiRequestError("Unable to load professors.");
+  }
+
+  return response.json();
+}
+
+export async function getProfessorPapers(
+  professorId: number,
+): Promise<Paper[]> {
+  const response = await fetch(
+    `${getApiBaseUrl()}/professors/${professorId}/papers`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+      cache: "no-store",
+    },
+  );
+
+  if (!response.ok) {
+    throw new ApiRequestError("Unable to load papers.");
+  }
+
+  return response.json();
+}
+
+export type SearchProgramResult = {
+  program_id: number;
+  program_name: string;
+  degree_type: string;
+  field: string | null;
+  price: number | null;
+  funding_available: boolean;
+  program_start: number | null;
+  program_end: number | null;
+  match_score: number;
+  next_deadline: string | null;
+  university: {
+    university_id: number;
+    university_name: string;
+    location: string | null;
+  };
+  professors: Professor[];
+};
+
+export type DegreeType =
+  | "Masters"
+  | "PhD"
+  | "Combined";
+
+export async function searchPrograms(filters: {
+  search?: string;
+  location?: string[];
+  degreeType?: DegreeType[];
+}): Promise<SearchProgramResult[]> {
+  const params = new URLSearchParams();
+
+  if (filters.search) {
+    params.set("search", filters.search);
+  }
+
+  for (const location of filters.location ?? []) {
+    params.append("location", location);
+  }
+
+  for (const degreeType of filters.degreeType ?? []) {
+    params.append("degree_type", degreeType);
+  }
+
+  const response = await fetch(
+    `${getApiBaseUrl()}/search/programs?${params.toString()}`,
+    {
+      headers: {
+        Accept: "application/json",
+      },
+      cache: "no-store",
+    },
+  );
+
+  if (!response.ok) {
+    throw new ApiRequestError(
+      "Unable to search programs.",
+    );
+  }
+
+  return response.json();
+}
+
+type SavedProgramSummary = {
+  program_id: number;
+};
+
+export async function getSavedProgramIds(): Promise<number[]> {
+  const response = await fetch("/api/saved-programs", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new ApiRequestError(
+      "Unable to load saved programs.",
+    );
+  }
+
+  const programs =
+    (await response.json()) as SavedProgramSummary[];
+
+  return programs.map((program) => program.program_id);
+}
+
+export async function saveProgram(
+  programId: number,
+): Promise<void> {
+  const response = await fetch("/api/saved-programs", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      program_id: programId,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new ApiRequestError("Unable to save program.");
+  }
+}
+
+export async function unsaveProgram(
+  programId: number,
+): Promise<void> {
+  const response = await fetch(
+    `/api/saved-programs/${programId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new ApiRequestError(
+      "Unable to remove saved program.",
+    );
+  }
+}
