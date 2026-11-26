@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { PageNav } from "@/components/page-nav";
+import { ApplicationServiceError } from "@/components/application-service-error";
+import { AuthPageShell } from "@/components/auth/auth-page-shell";
+import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
+import { RestoringSession } from "@/components/restoring-session";
+import { getValidatedSession } from "@/lib/auth/session";
+import { isOnboardingComplete } from "@/lib/onboarding";
 
 export const metadata: Metadata = {
   title: "Onboarding",
@@ -8,12 +14,43 @@ export const metadata: Metadata = {
     "Set up your GradVision profile to get personalized graduate program recommendations.",
 };
 
-export default function OnboardingPage() {
+export default async function OnboardingPage() {
+  const session = await getValidatedSession();
+
+  if (!session.ok && session.reason === "refreshable") {
+    return (
+      <main className="flex min-h-screen flex-1 flex-col">
+        <RestoringSession />
+      </main>
+    );
+  }
+
+  if (!session.ok && session.reason === "unauthorized") {
+    redirect("/login");
+  }
+
+  if (!session.ok && session.reason === "unavailable") {
+    return (
+      <main className="flex min-h-screen flex-1 flex-col">
+        <ApplicationServiceError
+          message={session.message}
+          retryHref="/onboarding"
+        />
+      </main>
+    );
+  }
+
+  if (!session.ok) {
+    redirect("/login");
+  }
+
+  if (isOnboardingComplete(session.user)) {
+    redirect("/dashboard");
+  }
+
   return (
-    <main className="min-h-screen p-8">
-      <h1 className="text-4xl">Onboarding</h1>
-      <p className="mt-2">Let’s build your GradVision</p>
-      <PageNav current="/onboarding" />
-    </main>
+    <AuthPageShell tagline="Let's build your GradVision">
+      <OnboardingWizard />
+    </AuthPageShell>
   );
 }
