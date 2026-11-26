@@ -312,7 +312,7 @@ export type DegreeType =
 
 export async function searchPrograms(filters: {
   search?: string;
-  location?: string;
+  location?: string[];
   degreeType?: DegreeType[];
 }): Promise<SearchProgramResult[]> {
   const params = new URLSearchParams();
@@ -321,8 +321,8 @@ export async function searchPrograms(filters: {
     params.set("search", filters.search);
   }
 
-  if (filters.location) {
-    params.set("location", filters.location);
+  for (const location of filters.location ?? []) {
+    params.append("location", location);
   }
 
   for (const degreeType of filters.degreeType ?? []) {
@@ -340,13 +340,13 @@ export async function searchPrograms(filters: {
   );
 
   if (!response.ok) {
-    throw new ApiRequestError("Unable to search programs.");
+    throw new ApiRequestError(
+      "Unable to search programs.",
+    );
   }
 
   return response.json();
 }
-
-// GradVision-frontend/src/lib/api.ts
 
 type SavedProgramSummary = {
   program_id: number;
