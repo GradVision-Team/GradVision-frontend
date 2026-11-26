@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ../GradVision-backend              # assumes repos sit side by side under the same folder
+    env_file: ../GradVision-backend/.env      # JWT_SECRET_KEY=...
+    environment:
+      DATABASE_URL: sqlite:////data/gradvision.db
+    volumes:
+      - db-data:/data
+    ports: ["8000:8000"]                     # optional: for /docs
+
+  frontend:
+    build: .
+    environment:
+      API_URL: http://backend:8000/api
+    ports: ["3000:3000"]
+    depends_on: [backend]
+
+volumes: # so data survives docker compose down
+  db-data:

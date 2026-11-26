@@ -35,7 +35,7 @@ const DEFAULT_PROD_API_URL = "https://gradvision-backend.onrender.com/api";
  * Those BFF handlers call this URL to reach the real backend.
  */
 export function getApiBaseUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_API_URL?.trim();
+  const configured = process.env.API_URL?.trim();
   const fallback =
     process.env.NODE_ENV === "production"
       ? DEFAULT_PROD_API_URL
